@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>monospace?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div class="container" id="app">
+    <div class="header">
+      <div class="title">
+        <h1>is it monospace?</h1>
+        <p>Find out if your font is monospace here</p>
+        <form>
+          <input 
+            type="file" 
+            id="fileInput"
+            @change="onFileChange"
+          >
+          <label for="fileInput">Choose a font <i class="fas fa-file-upload"></i></label>
+        </form>
+      </div>
+      <div class="line"></div>
+      <div 
+        class="results-pane"
+        :class="{ 'open': results.showResults}"
+      >
+        <div class="results-text">
+          <p>{{ results.isMonoSpace ? "Yes, your font is monospace" : "No, your font is not monospace" }}</p>
+          <!-- <p>{{ results.modePercent }}</p> -->
+        </div>
+      </div>
+    </div>
+    <!-- <div 
+      v-if="results.showResults"
+      class="font-info"
+    >
+      <h2>font info</h2>
+    </div> -->
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/opentype.js@latest/dist/opentype.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://kit.fontawesome.com/d59cf32569.js" crossorigin="anonymous"></script>
+  <script src="js/tester.js"></script>
+</body>
+</html>
