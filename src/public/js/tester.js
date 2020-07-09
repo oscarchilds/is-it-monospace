@@ -1,15 +1,54 @@
 var app = new Vue({
   el: '#app',
   data: {
-    message: 'Hello Vue!',
-    uploadedFiles: [],
-    results: {
-      showResults: false,
-      isMonoSpace: null,
-      modePercent: null
-    }
+    showResults: false,
+    isMonoSpace: null,
+    modePercent: null,
+    showLine: false,
+    fileName: '',
+    font: null,
+    modes: null
+  },
+  computed: {
+    glyphArray: function () {
+      if (this.font) {
+        var glyphsAsObject = this.font.glyphs.glyphs 
+        return Object.keys(glyphsAsObject).map((key) => [Number(key), glyphsAsObject[key]]);
+      }
+
+      return null
+    },
+    widths: function() {
+      var widths = []
+
+      for (let index = 0; index < this.glyphArray.length; index++) {
+        var glyph = this.glyphArray[index][1];
+        widths.push(glyph.advanceWidth)
+      }
+
+      return widths
+    },
   },
   methods: {
+    onFileChange: function(e) {
+      this.showResults = false
+      var vn = this
+      var fileList = e.target.files || e.dataTransfer.files
+      var file = fileList[0]
+
+      this.fileName = e.target.value.split('\\').pop();
+
+      var reader = new FileReader()
+      reader.onload = function () {
+        var arrayBuffer = this.result
+        vn.font = opentype.parse(arrayBuffer)
+
+        vn.getModes(vn.widths)
+        vn.animateResults(vn.modes)
+      }
+
+      reader.readAsArrayBuffer(file)
+    },
     getModes: function (numbers) {
       var modes = [], count = [], i, number, maxIndex = 0;
   
@@ -31,46 +70,26 @@ var app = new Vue({
               }
           }
   
-      return modes;
+      this.modes = modes;
     },
-    testFont: function(font) {
+    animateResults(modeResults) {
       var vn = this
-      var widths = []
-      var glyphsAsObject = font.glyphs.glyphs
+      var modePercent = ((modeResults[0].count / this.glyphArray.length) * 100).toFixed(3)
 
-      var glyphs = Object.keys(glyphsAsObject).map((key) => [Number(key), glyphsAsObject[key]]);
-
-      for (let index = 0; index < glyphs.length; index++) {
-        var glyph = glyphs[index][1];
-        widths.push(glyph.advanceWidth)
+      if (this.showLine) {
+        setTimeout(function() {
+          vn.isMonoSpace = modePercent > 95
+          vn.modePercent = modePercent
+          vn.showResults = true
+        }, 1000)
+      } else {
+        this.showLine = true
+        setTimeout(function() {
+          vn.isMonoSpace = modePercent > 95
+          vn.modePercent = modePercent
+          vn.showResults = true
+        }, 750)
       }
-
-      var modeResults = this.getModes(widths)
-      var modePercent = ((modeResults[0].count / glyphs.length) * 100).toFixed(3)
-      
-      console.log(modePercent)
-
-      setTimeout(function() {
-        vn.results.isMonoSpace = modePercent > 95
-        vn.results.modePercent = modePercent
-        vn.results.showResults = true
-      }, 1000)
-    },
-    onFileChange: function(e) {
-      this.results.showResults = false
-      var vn = this
-      var fileList = e.target.files || e.dataTransfer.files
-      var file = fileList[0]
-
-      var reader = new FileReader()
-      reader.onload = function () {
-        var arrayBuffer = this.result
-        var font = opentype.parse(arrayBuffer)
-
-        vn.testFont(font)
-      }
-
-      reader.readAsArrayBuffer(file)
     }
   }
 })

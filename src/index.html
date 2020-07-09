@@ -21,23 +21,37 @@
           <label for="fileInput">Choose a font <i class="fas fa-file-upload"></i></label>
         </form>
       </div>
-      <div class="line"></div>
+      <div 
+        class="line"
+        :class="{ 'open': showLine}"
+      ></div>
       <div 
         class="results-pane"
-        :class="{ 'open': results.showResults}"
+        :class="{ 'open': showResults}"
       >
         <div class="results-text">
-          <p>{{ results.isMonoSpace ? "Yes, your font is monospace" : "No, your font is not monospace" }}</p>
+          <p>{{ isMonoSpace ? "Yes, your font is monospace" : "No, your font is not monospace" }}</p>
           <!-- <p>{{ results.modePercent }}</p> -->
         </div>
       </div>
     </div>
-    <!-- <div 
-      v-if="results.showResults"
+    <div 
+      v-if="showResults"
       class="font-info"
     >
-      <h2>font info</h2>
-    </div> -->
+      <h1>font info</h1>
+      <div class="info-container">
+        <p>file name: {{ fileName }}</p>
+        <p>font name: {{ font.names.fullName.en }}</p>
+        <p>format: {{ font.outlinesFormat }}</p>
+        <p>number of glyphs: {{ font.numGlyphs }}</p>
+        <p>mode average advanceWidth: {{ modes[0].number }}</p>
+        <p>mode percentage: {{ modePercent }}%</p>
+      </div>
+    </div>
+    <div class="footer">
+
+    </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/opentype.js@latest/dist/opentype.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

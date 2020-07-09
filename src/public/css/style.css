@@ -13,36 +13,48 @@
   width: 100%;
   background-color: white;
 }
-.container .header h1 {
+.container .header .title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.container .header .title h1 {
   margin-top: 0;
 }
-.container .header #fileInput {
+.container .header .title p {
+  margin: 0;
+}
+.container .header .title #fileInput {
   display: none;
 }
-.container .header form {
+.container .header .title form {
   margin-top: 36px;
 }
-.container .header label {
+.container .header .title label {
   background-color: white;
   padding: 10px;
   border: 2px solid black;
   transition: 300ms all ease;
 }
-.container .header label:hover {
+.container .header .title label:hover {
   background-color: black;
   color: white;
   cursor: pointer;
 }
 .container .header .line {
-  height: 300px;
+  height: 0;
   border: 1px solid black;
+  margin: 0;
+  transition: 750ms all ease;
+}
+.container .header .line.open {
+  height: 300px;
   margin: 0 30px;
 }
 .container .header .results-pane {
   width: 0;
   overflow: hidden;
   transition: all 1s ease;
-  -webkit-transition: all 1s ease;
 }
 .container .header .results-pane.open {
   width: 350px;
@@ -52,9 +64,16 @@
 }
 .container .font-info {
   background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 125px 0;
 }
-.container .font-info h2, .container .font-info p {
+.container .font-info h1, .container .font-info p {
   color: white;
+}
+.container .footer {
+  height: 200px;
 }
 
 .result {
