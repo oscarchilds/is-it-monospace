@@ -4,16 +4,17 @@ var app = new Vue({
     showResults: false,
     isMonoSpace: null,
     modePercent: null,
-    showLine: false,
+    firstLoad: false,
     fileName: '',
     font: null,
-    modes: null
+    modes: null,
+    tileCount: 20
   },
   computed: {
     glyphArray: function () {
       if (this.font) {
         var glyphsAsObject = this.font.glyphs.glyphs 
-        return Object.keys(glyphsAsObject).map((key) => [Number(key), glyphsAsObject[key]]);
+        return Object.keys(glyphsAsObject).map((key) => glyphsAsObject[key]);
       }
 
       return null
@@ -22,23 +23,38 @@ var app = new Vue({
       var widths = []
 
       for (let index = 0; index < this.glyphArray.length; index++) {
-        var glyph = this.glyphArray[index][1];
+        var glyph = this.glyphArray[index];
         widths.push(glyph.advanceWidth)
       }
 
       return widths
     },
   },
+  watch: {
+    showResults: function () {
+      this.tileCount = 20
+      this.drawGlyphs()
+    },
+    tileCount: function () {
+      this.drawGlyphs()
+    }
+  },
   methods: {
     onFileChange: function(e) {
       this.showResults = false
       var vn = this
+      this.fileName = e.target.value.split('\\').pop();
       var fileList = e.target.files || e.dataTransfer.files
       var file = fileList[0]
 
-      this.fileName = e.target.value.split('\\').pop();
-
+      setTimeout(function() {
+        vn.processFile(file)
+      }, 1000)
+    },
+    processFile: function (file) {
+      var vn = this
       var reader = new FileReader()
+
       reader.onload = function () {
         var arrayBuffer = this.result
         vn.font = opentype.parse(arrayBuffer)
@@ -76,19 +92,43 @@ var app = new Vue({
       var vn = this
       var modePercent = ((modeResults[0].count / this.glyphArray.length) * 100).toFixed(3)
 
-      if (this.showLine) {
-        setTimeout(function() {
-          vn.isMonoSpace = modePercent > 95
-          vn.modePercent = modePercent
-          vn.showResults = true
-        }, 1000)
+      if (this.firstLoad) {
+        vn.isMonoSpace = modePercent > 90
+        vn.modePercent = modePercent
+        vn.showResults = true
       } else {
-        this.showLine = true
+        this.firstLoad = true
         setTimeout(function() {
-          vn.isMonoSpace = modePercent > 95
+          vn.isMonoSpace = modePercent > 90
           vn.modePercent = modePercent
           vn.showResults = true
         }, 750)
+      }
+    },
+    drawGlyphs () {
+      for (let index = 0; index < this.tileCount; index++) {
+        var canvas = document.getElementById(index + '-canvas')
+        var ctx = canvas.getContext("2d")
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+        var glyph = this.glyphArray[index]
+        var char = String.fromCharCode(glyph.unicode)
+
+        this.font.draw(
+          ctx, 
+          char,
+          30, 
+          150, 
+          100
+        )
+
+        this.font.drawMetrics(
+          ctx, 
+          char, 
+          30, 
+          150, 
+          100
+        )
       }
     }
   }

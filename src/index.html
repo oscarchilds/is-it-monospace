@@ -23,7 +23,7 @@
       </div>
       <div 
         class="line"
-        :class="{ 'open': showLine}"
+        :class="{ 'open': firstLoad}"
       ></div>
       <div 
         class="results-pane"
@@ -36,17 +36,50 @@
       </div>
     </div>
     <div 
-      v-if="showResults"
       class="font-info"
+      :class="{ 'show': firstLoad }"
     >
-      <h1>font info</h1>
-      <div class="info-container">
-        <p>file name: {{ fileName }}</p>
-        <p>font name: {{ font.names.fullName.en }}</p>
-        <p>format: {{ font.outlinesFormat }}</p>
-        <p>number of glyphs: {{ font.numGlyphs }}</p>
-        <p>mode average advanceWidth: {{ modes[0].number }}</p>
-        <p>mode percentage: {{ modePercent }}%</p>
+      <transition name="fade">
+        <h1 v-if="showResults">font info</h1>
+      </transition>
+      <transition name="fade">
+        <div 
+          class="info-container"
+          v-if="showResults"
+        >
+          <p>file name: {{ fileName }}</p>
+          <p>font name: {{ font.names.fullName.en }}</p>
+          <p>format: {{ font.outlinesFormat }}</p>
+          <p>number of glyphs: {{ font.numGlyphs }}</p>
+          <p>mode average advanceWidth: {{ modes[0].number }}</p>
+          <p>mode percentage: {{ modePercent }}%</p>
+        </div>
+      </transition>
+    </div>
+    <div 
+      class="glyph-container"
+    >
+      <div class="tile-container">
+        <div 
+          class="tile"
+          v-for="(glyph, key) in glyphArray"
+          :key="key"
+          v-if="key < tileCount"
+        >
+          <p>{{ glyph.name }}</p>
+          <canvas
+            width="200"
+            height="200"
+            :id="key + '-canvas'"
+          ></canvas>
+        </div>
+      </div>
+      <div 
+        class="load-tiles"
+        @click="tileCount += 20"
+        v-if="showResults"
+      >
+        Load more glyphs
       </div>
     </div>
     <div class="footer">

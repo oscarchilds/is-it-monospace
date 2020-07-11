@@ -50,11 +50,12 @@
 
     .line {
       height: 0;
-      border: 1px solid black;
+      border: none;
       margin: 0;
-      transition: 750ms all ease;
+      transition: all 750ms ease;
 
       &.open {
+        border: 1px solid black;
         height: 300px;
         margin: 0 30px;
       }
@@ -76,16 +77,58 @@
   }
 
   .font-info {
-    background-color: black;
+    background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 125px 0;
+    transition: all 1s ease;
+
+    &.show {
+      background-color: black;
+    }
 
     h1, p {
       color: white;
     }
   }
+
+  .glyph-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .tile-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .tile {
+        height: 300px;
+        width: 200px;
+        border: 2px solid black;
+        margin: 40px;
+
+        p {
+          margin-left: 30px;
+        }
+      }
+    }
+
+    .load-tiles {
+      background-color: white;
+      padding: 10px;
+      border: 2px solid black;
+      transition: 300ms all ease;
+
+      &:hover {
+        background-color: black;
+        color: white;
+        cursor: pointer;
+      }
+    }
+  }
+
 
   .footer {
     height: 200px;
@@ -98,4 +141,11 @@
 
 body {
   font-family: 'Roboto Mono', monospace;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s ease;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }

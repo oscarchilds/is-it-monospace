@@ -43,11 +43,12 @@
 }
 .container .header .line {
   height: 0;
-  border: 1px solid black;
+  border: none;
   margin: 0;
-  transition: 750ms all ease;
+  transition: all 750ms ease;
 }
 .container .header .line.open {
+  border: 1px solid black;
   height: 300px;
   margin: 0 30px;
 }
@@ -63,14 +64,48 @@
   width: 350px;
 }
 .container .font-info {
-  background-color: black;
+  background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 125px 0;
+  transition: all 1s ease;
+}
+.container .font-info.show {
+  background-color: black;
 }
 .container .font-info h1, .container .font-info p {
   color: white;
+}
+.container .glyph-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container .glyph-container .tile-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.container .glyph-container .tile-container .tile {
+  height: 300px;
+  width: 200px;
+  border: 2px solid black;
+  margin: 40px;
+}
+.container .glyph-container .tile-container .tile p {
+  margin-left: 30px;
+}
+.container .glyph-container .load-tiles {
+  background-color: white;
+  padding: 10px;
+  border: 2px solid black;
+  transition: 300ms all ease;
+}
+.container .glyph-container .load-tiles:hover {
+  background-color: black;
+  color: white;
+  cursor: pointer;
 }
 .container .footer {
   height: 200px;
@@ -82,6 +117,14 @@
 
 body {
   font-family: "Roboto Mono", monospace;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 
 /*# sourceMappingURL=style.css.map */
