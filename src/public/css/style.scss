@@ -147,22 +147,63 @@
 
   .glyph-container {
     display: flex;
+    align-items: center;
     flex-direction: column;
+
+    .glyph-nav {
+      background-color: black;
+      position: sticky;
+      top: 0px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+
+      :first-child {
+        margin-left: 91px;
+      }
+
+      :last-child {
+        margin-right: 91px;
+      }
+
+      p {
+        color: white;
+        margin-right: 20px 
+      }
+      
+      input {
+        -webkit-appearance: none;
+        height: 25px;
+        border: 2px solid white;
+        color: white;
+        background-color: black;
+        margin: 0 10px;
+        font-family: 'Roboto Mono', monospace;
+      }
+    }
 
     .tile-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      background-color: gray;
 
       .tile {
         height: 300px;
         width: 200px;
         border: 2px solid black;
         margin: 40px;
+        opacity: 0;
+        transition: 300ms all ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
-        p {
-          margin-left: 30px;
+        &.show {
+          opacity: 1;
+        }
+
+        h3 {
+          margin: 0;
         }
       }
     }

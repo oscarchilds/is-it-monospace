@@ -93,20 +93,29 @@
         </div>
       </div>
     </div>
-    <div class="glyph-container">
+    <div 
+      class="glyph-container"
+      v-show="showResults"
+    >
+      <div class="glyph-nav">
+        <p>search</p>
+        <input v-model="glyphSearch">
+      </div>
       <div class="tile-container">
         <div 
           class="tile"
-          v-for="(glyph, key) in glyphArray"
+          v-for="(glyph, key) in searchedGlyphArray"
           :key="key"
           v-if="key < tileCount"
+          :class="{ 'show': key < tileCount }"
         >
-          <p>{{ glyph.name }}</p>
           <canvas
             width="200"
             height="200"
             :id="key + '-canvas'"
           ></canvas>
+          <h3>{{ glyph.name }}</h3>
+          <p>advanceWidth: {{ glyph.advanceWidth }}</h3>
         </div>
       </div>
       <div 

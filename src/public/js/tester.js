@@ -9,7 +9,8 @@ var app = new Vue({
     font: null,
     modes: null,
     tileCount: 20,
-    customTestText: 'compare'
+    customTestText: 'compare',
+    glyphSearch: ''
   },
   computed: {
     glyphArray: function () {
@@ -19,6 +20,13 @@ var app = new Vue({
       }
 
       return null
+    },
+    searchedGlyphArray: function () {
+      if (this.glyphSearch) {
+        return this.glyphArray.filter(glyph => glyph.name.includes(this.glyphSearch))
+      }
+
+      return this.glyphArray
     },
     widths: function() {
       var widths = []
@@ -38,11 +46,20 @@ var app = new Vue({
       this.drawGlyphs()
     },
     tileCount: function () {
-      this.drawGlyphs()
+      var vm = this
+      Vue.nextTick(function () {
+        vm.drawGlyphs()
+      })
     },
     customTestText: function () {
       this.drawComparison()
-    }
+    },
+    searchedGlyphArray: function () {
+      var vm = this
+      Vue.nextTick(function () {
+        vm.drawGlyphs()
+      })
+    },
   },
   methods: {
     onFileChange: function(e) {
@@ -111,18 +128,22 @@ var app = new Vue({
       }
     },
     drawGlyphs() {
+      var scale = 1 / this.font.unitsPerEm * 100;
+
       for (let index = 0; index < this.tileCount; index++) {
         var canvas = document.getElementById(index + '-canvas')
         var ctx = canvas.getContext("2d")
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-        var glyph = this.glyphArray[index]
+        var glyph = this.searchedGlyphArray[index]
         var char = String.fromCharCode(glyph.unicode)
+
+        canvas.width = (glyph.advanceWidth * scale) + 40
 
         this.font.draw(
           ctx, 
           char,
-          30, 
+          20, 
           150, 
           100
         )
@@ -130,7 +151,7 @@ var app = new Vue({
         this.font.drawMetrics(
           ctx, 
           char, 
-          30, 
+          20, 
           150, 
           100
         )
@@ -143,7 +164,7 @@ var app = new Vue({
       var canvas = document.getElementById('compare-canvas')
       var ctx = canvas.getContext("2d")
 
-      scale = 1 / this.font.unitsPerEm * fontSize;
+      var scale = 1 / this.font.unitsPerEm * fontSize;
 
       var glyph = this.glyphArray.find(x => x.unicode == 119)
       canvas.width = ((glyph.advanceWidth * scale) * 15) + 20

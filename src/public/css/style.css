@@ -122,22 +122,57 @@
 }
 .container .glyph-container {
   display: flex;
+  align-items: center;
   flex-direction: column;
+}
+.container .glyph-container .glyph-nav {
+  background-color: black;
+  position: sticky;
+  top: 0px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.container .glyph-container .glyph-nav :first-child {
+  margin-left: 91px;
+}
+.container .glyph-container .glyph-nav :last-child {
+  margin-right: 91px;
+}
+.container .glyph-container .glyph-nav p {
+  color: white;
+  margin-right: 20px;
+}
+.container .glyph-container .glyph-nav input {
+  -webkit-appearance: none;
+  height: 25px;
+  border: 2px solid white;
+  color: white;
+  background-color: black;
+  margin: 0 10px;
+  font-family: "Roboto Mono", monospace;
 }
 .container .glyph-container .tile-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: gray;
 }
 .container .glyph-container .tile-container .tile {
   height: 300px;
   width: 200px;
   border: 2px solid black;
   margin: 40px;
+  opacity: 0;
+  transition: 300ms all ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.container .glyph-container .tile-container .tile p {
-  margin-left: 30px;
+.container .glyph-container .tile-container .tile.show {
+  opacity: 1;
+}
+.container .glyph-container .tile-container .tile h3 {
+  margin: 0;
 }
 .container .glyph-container .load-tiles {
   background-color: white;
