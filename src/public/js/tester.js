@@ -8,7 +8,8 @@ var app = new Vue({
     fileName: '',
     font: null,
     modes: null,
-    tileCount: 20
+    tileCount: 20,
+    customTestText: 'compare'
   },
   computed: {
     glyphArray: function () {
@@ -38,6 +39,9 @@ var app = new Vue({
     },
     tileCount: function () {
       this.drawGlyphs()
+    },
+    customTestText: function () {
+      this.drawComparison()
     }
   },
   methods: {
@@ -133,15 +137,27 @@ var app = new Vue({
       }
     },
     drawComparison() {
+      var fontSize = 100
+      var textArray = ['iiiiiiiiiiiiiii', 'aaaaaaaaaaaaaaa' ,'wwwwwwwwwwwwwww', this.customTestText]
+      var i = 0
       var canvas = document.getElementById('compare-canvas')
       var ctx = canvas.getContext("2d")
+
+      scale = 1 / this.font.unitsPerEm * fontSize;
+
+      var glyph = this.glyphArray.find(x => x.unicode == 119)
+      canvas.width = ((glyph.advanceWidth * scale) * 15) + 20
+
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      this.font.draw(ctx, 'iiiiiiiiii', 10, 100, 100)
-      this.font.drawMetrics(ctx, 'iiiiiiiiii', 10, 100, 100)
+      textArray.forEach(text => {
+        var y = 110 * (i + 1)
 
-      this.font.draw(ctx, 'wwwwwwwwww', 10, 200, 100)
-      this.font.drawMetrics(ctx, 'wwwwwwwwww', 10, 200, 100)
+        this.font.draw(ctx, text, 10, y, fontSize)
+        this.font.drawMetrics(ctx, text, 10, y, fontSize)
+
+        i++
+      })
     }
   }
 })

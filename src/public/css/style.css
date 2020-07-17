@@ -89,10 +89,40 @@
 .container .compare-container canvas {
   border: 2px solid black;
 }
-.container .glyph-container {
+.container .compare-container .compare-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.container .compare-container .compare-controls input {
+  -webkit-appearance: none;
+  height: 25px;
+  border: 2px solid black;
+  margin: 13px 0 0;
+  font-family: "Roboto Mono", monospace;
+}
+.container .compare-container .compare-learn-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 50px;
+}
+.container .compare-container .compare-learn-container .learn-tile {
+  width: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.container .compare-container .compare-learn-container .learn-tile img {
+  width: 75%;
+  border: 2px solid black;
+}
+.container .compare-container .compare-learn-container .learn-tile p {
+  width: 75%;
+}
+.container .glyph-container {
+  display: flex;
+  flex-direction: column;
 }
 .container .glyph-container .tile-container {
   display: flex;
@@ -114,6 +144,7 @@
   padding: 10px;
   border: 2px solid black;
   transition: 300ms all ease;
+  width: 154px;
 }
 .container .glyph-container .load-tiles:hover {
   background-color: black;

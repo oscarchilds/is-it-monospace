@@ -106,12 +106,48 @@
     canvas {
       border: 2px solid black;
     }
+    
+    .compare-controls {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      input {
+        -webkit-appearance: none;
+        height: 25px;
+        border: 2px solid black;
+        margin: 13px 0 0;
+        font-family: 'Roboto Mono', monospace;
+      }
+    }
+
+    .compare-learn-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 50px;
+
+      .learn-tile {
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        img {
+          width: 75%;
+          border: 2px solid black;
+        }
+
+        p {
+          width: 75%;
+        }
+      }
+    }
   }
 
   .glyph-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
 
     .tile-container {
       display: flex;
@@ -136,6 +172,7 @@
       padding: 10px;
       border: 2px solid black;
       transition: 300ms all ease;
+      width: 154px;
 
       &:hover {
         background-color: black;
