@@ -93,6 +93,21 @@
     }
   }
 
+  .compare-container {
+    padding: 125px 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+
+    &.show {
+      display: flex;
+    }
+
+    canvas {
+      border: 2px solid black;
+    }
+  }
+
   .glyph-container {
     display: flex;
     flex-direction: column;
@@ -102,6 +117,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+      background-color: gray;
 
       .tile {
         height: 300px;

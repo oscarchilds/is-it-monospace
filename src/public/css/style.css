@@ -77,6 +77,18 @@
 .container .font-info h1, .container .font-info p {
   color: white;
 }
+.container .compare-container {
+  padding: 125px 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+.container .compare-container.show {
+  display: flex;
+}
+.container .compare-container canvas {
+  border: 2px solid black;
+}
 .container .glyph-container {
   display: flex;
   flex-direction: column;
@@ -86,6 +98,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  background-color: gray;
 }
 .container .glyph-container .tile-container .tile {
   height: 300px;

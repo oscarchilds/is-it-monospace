@@ -57,8 +57,17 @@
       </transition>
     </div>
     <div 
-      class="glyph-container"
+      class="compare-container"
+      :class="{ 'show': showResults }"
     >
+      <h1>compare</h1>
+      <canvas 
+        id="compare-canvas"
+        width="1200"
+        height="600"
+      ></canvas>
+    </div>
+    <div class="glyph-container">
       <div class="tile-container">
         <div 
           class="tile"
@@ -86,9 +95,9 @@
 
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/opentype.js@latest/dist/opentype.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://kit.fontawesome.com/d59cf32569.js" crossorigin="anonymous"></script>
+  <script src="js/opentype.js"></script>
   <script src="js/tester.js"></script>
 </body>
 </html>

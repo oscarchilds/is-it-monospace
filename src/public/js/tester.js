@@ -33,6 +33,7 @@ var app = new Vue({
   watch: {
     showResults: function () {
       this.tileCount = 20
+      this.drawComparison()
       this.drawGlyphs()
     },
     tileCount: function () {
@@ -105,7 +106,7 @@ var app = new Vue({
         }, 750)
       }
     },
-    drawGlyphs () {
+    drawGlyphs() {
       for (let index = 0; index < this.tileCount; index++) {
         var canvas = document.getElementById(index + '-canvas')
         var ctx = canvas.getContext("2d")
@@ -130,6 +131,17 @@ var app = new Vue({
           100
         )
       }
+    },
+    drawComparison() {
+      var canvas = document.getElementById('compare-canvas')
+      var ctx = canvas.getContext("2d")
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      this.font.draw(ctx, 'iiiiiiiiii', 10, 100, 100)
+      this.font.drawMetrics(ctx, 'iiiiiiiiii', 10, 100, 100)
+
+      this.font.draw(ctx, 'wwwwwwwwww', 10, 200, 100)
+      this.font.drawMetrics(ctx, 'wwwwwwwwww', 10, 200, 100)
     }
   }
 })
