@@ -124,6 +124,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin-bottom: 150px;
 }
 .container .glyph-container .glyph-nav {
   background-color: black;
@@ -156,6 +157,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  min-height: 384px;
 }
 .container .glyph-container .tile-container .tile {
   height: 300px;
@@ -188,6 +190,16 @@
 }
 .container .footer {
   height: 200px;
+  background-color: black;
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+.container .footer a, .container .footer p {
+  color: white;
+}
+.container .footer a:hover {
+  color: gray;
 }
 
 .result {

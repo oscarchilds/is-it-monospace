@@ -149,6 +149,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin-bottom: 150px;
 
     .glyph-nav {
       background-color: black;
@@ -186,6 +187,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+      min-height: 384px;
 
       .tile {
         height: 300px;
@@ -226,6 +228,18 @@
 
   .footer {
     height: 200px;
+    background-color: black;
+    padding-top: 50px;
+    display: flex;
+    justify-content: center;
+
+    a, p {
+      color: white;
+    }
+
+    a:hover {
+      color: gray;
+    }
   }
 }
 
