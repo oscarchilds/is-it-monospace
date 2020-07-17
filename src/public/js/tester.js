@@ -8,7 +8,9 @@ var app = new Vue({
     fileName: '',
     font: null,
     modes: null,
-    tileCount: 20
+    tileCount: 20,
+    customTestText: 'compare',
+    glyphSearch: ''
   },
   computed: {
     glyphArray: function () {
@@ -18,6 +20,13 @@ var app = new Vue({
       }
 
       return null
+    },
+    searchedGlyphArray: function () {
+      if (this.glyphSearch) {
+        return this.glyphArray.filter(glyph => glyph.name.includes(this.glyphSearch))
+      }
+
+      return this.glyphArray
     },
     widths: function() {
       var widths = []
@@ -33,11 +42,24 @@ var app = new Vue({
   watch: {
     showResults: function () {
       this.tileCount = 20
+      this.drawComparison()
       this.drawGlyphs()
     },
     tileCount: function () {
-      this.drawGlyphs()
-    }
+      var vm = this
+      Vue.nextTick(function () {
+        vm.drawGlyphs()
+      })
+    },
+    customTestText: function () {
+      this.drawComparison()
+    },
+    searchedGlyphArray: function () {
+      var vm = this
+      Vue.nextTick(function () {
+        vm.drawGlyphs()
+      })
+    },
   },
   methods: {
     onFileChange: function(e) {
@@ -105,19 +127,23 @@ var app = new Vue({
         }, 750)
       }
     },
-    drawGlyphs () {
+    drawGlyphs() {
+      var scale = 1 / this.font.unitsPerEm * 100;
+
       for (let index = 0; index < this.tileCount; index++) {
         var canvas = document.getElementById(index + '-canvas')
         var ctx = canvas.getContext("2d")
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-        var glyph = this.glyphArray[index]
+        var glyph = this.searchedGlyphArray[index]
         var char = String.fromCharCode(glyph.unicode)
+
+        canvas.width = (glyph.advanceWidth * scale) + 40
 
         this.font.draw(
           ctx, 
           char,
-          30, 
+          20, 
           150, 
           100
         )
@@ -125,11 +151,34 @@ var app = new Vue({
         this.font.drawMetrics(
           ctx, 
           char, 
-          30, 
+          20, 
           150, 
           100
         )
       }
+    },
+    drawComparison() {
+      var fontSize = 100
+      var textArray = ['iiiiiiiiiiiiiii', 'aaaaaaaaaaaaaaa' ,'wwwwwwwwwwwwwww', this.customTestText]
+      var i = 0
+      var canvas = document.getElementById('compare-canvas')
+      var ctx = canvas.getContext("2d")
+
+      var scale = 1 / this.font.unitsPerEm * fontSize;
+
+      var glyph = this.glyphArray.find(x => x.unicode == 119)
+      canvas.width = ((glyph.advanceWidth * scale) * 15) + 20
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      textArray.forEach(text => {
+        var y = 110 * (i + 1)
+
+        this.font.draw(ctx, text, 10, y, fontSize)
+        this.font.drawMetrics(ctx, text, 10, y, fontSize)
+
+        i++
+      })
     }
   }
 })
