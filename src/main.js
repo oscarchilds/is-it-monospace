@@ -1,4 +1,4 @@
-import './assets/style.scss'
+import './assets/styles/main.scss'
 
 // App
 import { createApp } from 'vue'
@@ -16,12 +16,12 @@ app.use(pinia)
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { config } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
+import { faUpload } from '@fortawesome/free-solid-svg-icons'
 
-library.add(fas)
-config.styleDefault = "solid"
+library.add(faUpload)
+config.styleDefault = 'solid'
 
-app.component("font-awesome-icon", FontAwesomeIcon)
+app.component('font-awesome-icon', FontAwesomeIcon)
 
 // Final
 app.mount('#app')

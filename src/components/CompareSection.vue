@@ -34,7 +34,6 @@ const drawComparison = function() {
     var y = 110 * (i + 1)
 
     font.value.draw(ctx, text, 10, y, fontSize)
-    font.value.drawMetrics(ctx, text, 10, y, fontSize)
 
     i++
   })
@@ -61,20 +60,21 @@ const drawComparison = function() {
     <div class="compare-learn-container">
       <div class="learn-tile">
         <h2>monospace</h2>
-        <img src="images/example-mono.png">
+        <img src="@/assets/images/example-mono.png">
         <p>
-          A monospace font is a font where the characters are the same width, regardless of which character is used. 
-          This is helpful when you want to guarantee the width taken up by a certain number of characters, or when you 
-          would like the characters on multiple rows of text to line up.
+          A monospace font is a font where the characters are the same width, regardless of which
+          character is used. This is helpful when you want to guarantee the width taken up by a
+          certain number of characters, or when you would like the characters on multiple rows of
+          text to line up.
         </p>
       </div>
       <div class="learn-tile">
         <h2>not monospace</h2>
-        <img src="images/example-not-mono.png">
+        <img src="@/assets/images/example-not-mono.png">
         <p>
-          When a font is not monospace, characters can be any width. This has the advantage of looking more natural and 
-          easy to read, but means that you cannot predict the width of a set number of characters like you could with a 
-          monospace font.
+          When a font is not monospace, characters can be any width. This has the advantage of
+          looking more natural and easy to read, but means that you cannot predict the width of a
+          set number of characters like you could with a monospace font.
         </p>
       </div>
     </div>
