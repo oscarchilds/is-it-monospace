@@ -10,23 +10,27 @@ export const useFontStore = defineStore('font', () => {
   const glyphArray = computed(() => {
     if (!font.value) return null
 
-    var glyphsAsObject = font.value.glyphs.glyphs 
-    return Object.keys(glyphsAsObject).map((key) => glyphsAsObject[key]);
+    var glyphsAsObject = font.value.glyphs.glyphs
+    return Object.keys(glyphsAsObject).map((key) => glyphsAsObject[key])
   })
 
   const modes = computed(() => {
     if (!glyphArray.value) return []
 
-    var result = [], count = [], i, number, maxIndex = 0;
+    var result = [],
+      count = [],
+      i,
+      number,
+      maxIndex = 0
 
-    const widths = glyphArray.value.map(x => x.advanceWidth)
+    const widths = glyphArray.value.map((x) => x.advanceWidth)
 
     for (i = 0; i < widths.length; i += 1) {
-      number = widths[i];
-      count[number] = (count[number] || 0) + 1;
+      number = widths[i]
+      count[number] = (count[number] || 0) + 1
 
       if (count[number] > maxIndex) {
-        maxIndex = count[number];
+        maxIndex = count[number]
       }
     }
 
@@ -55,19 +59,19 @@ export const useFontStore = defineStore('font', () => {
     return modePercent.value > 90
   })
 
-  const setShowResults = function(value) {
+  const setShowResults = function (value) {
     showResults.value = value
   }
 
-  const setFirstLoadHasHappened = function(value) {
+  const setFirstLoadHasHappened = function (value) {
     firstLoadHasHappened.value = value
   }
 
-  const setFont = function(value) {
+  const setFont = function (value) {
     font.value = value
   }
 
-  const setFileName = function(value) {
+  const setFileName = function (value) {
     fileName.value = value
   }
 

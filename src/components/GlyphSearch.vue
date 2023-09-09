@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { useFontStore } from '@/stores/font'
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue'
 
 const store = useFontStore()
 
@@ -15,7 +15,7 @@ const searchedGlyphArray = computed(() => {
   var result = glyphArray.value.slice(0, tileCount.value)
 
   if (glyphSearch.value) {
-    return result.filter(glyph => glyph.name.includes(glyphSearch.value))
+    return result.filter((glyph) => glyph.name.includes(glyphSearch.value))
   }
 
   return result
@@ -34,20 +34,20 @@ watch(glyphSearch, () => {
 })
 
 const drawGlyphs = function () {
-  var scale = 1 / font.value.unitsPerEm * 100;
+  var scale = (1 / font.value.unitsPerEm) * 100
 
-  var maxLength = Math.min(tileCount.value, (searchedGlyphArray.value.length))
+  var maxLength = Math.min(tileCount.value, searchedGlyphArray.value.length)
 
   for (let index = 0; index < maxLength; index++) {
     var canvas = document.getElementById(index + '-canvas')
-    var ctx = canvas.getContext("2d")
+    var ctx = canvas.getContext('2d')
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     var glyph = searchedGlyphArray.value[index]
     var char = String.fromCharCode(glyph.unicode)
 
-    canvas.width = (glyph.advanceWidth * scale) + 40
+    canvas.width = glyph.advanceWidth * scale + 40
 
     font.value.draw(ctx, char, 20, 150, 100)
     font.value.drawMetrics(ctx, char, 20, 150, 100)
@@ -62,14 +62,14 @@ const drawGlyphs = function () {
   >
     <div class="glyph-nav">
       <p>search</p>
-      <input v-model="glyphSearch">
+      <input v-model="glyphSearch" />
     </div>
     <div class="tile-container">
       <div
         v-for="(glyph, key) in searchedGlyphArray"
         :key="key"
         class="tile"
-        :class="{ 'show': key < tileCount }"
+        :class="{ show: key < tileCount }"
       >
         <canvas
           :id="key + '-canvas'"
@@ -80,7 +80,7 @@ const drawGlyphs = function () {
         <p>advanceWidth: {{ glyph.advanceWidth }}</p>
       </div>
     </div>
-    <div 
+    <div
       class="load-tiles"
       @click="tileCount += 20"
       v-if="showResults"
@@ -115,9 +115,9 @@ const drawGlyphs = function () {
 
     p {
       color: white;
-      margin-right: 20px 
+      margin-right: 20px;
     }
-    
+
     input {
       -webkit-appearance: none;
       height: 25px;
