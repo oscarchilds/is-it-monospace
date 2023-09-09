@@ -9,7 +9,7 @@ import FooterSection from './components/FooterSection.vue'
 <template>
   <div
     id="app"
-    class="container"
+    class="w-full h-[101vh]"
   >
     <HeroSection />
     <FontInfo />
@@ -18,13 +18,3 @@ import FooterSection from './components/FooterSection.vue'
     <FooterSection />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.container {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 101vh;
-}
-</style>

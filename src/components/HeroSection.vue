@@ -40,104 +40,37 @@ function animateResults() {
 </script>
 
 <template>
-  <div class="header">
-    <div class="title">
-      <h1>is it monospace?</h1>
-      <p>Find out if your font is monospace here</p>
-      <form>
+  <div class="flex items-center justify-center h-[80vh] w-full">
+    <div class="flex flex-col items-end">
+      <h1 class="text-3xl mb-4">is it monospace?</h1>
+      <p class="text-base">Find out if your font is monospace here</p>
+      <form class="mt-9">
         <input
           type="file"
           id="fileInput"
           accept=".ttf,.otf,.woff"
+          class="hidden"
           @change="onFileChange"
         />
-        <label for="fileInput">Choose a font <font-awesome-icon icon="upload" /></label>
+        <label
+          for="fileInput"
+          class="bg-white p-2.5 border-2 border-black rounded cursor-pointer transition hover:bg-black hover:text-white"
+        >
+          Choose a font <font-awesome-icon icon="upload" />
+        </label>
       </form>
     </div>
     <div
-      class="line"
-      :class="{ open: firstLoadHasHappened }"
+      class="h-0 border-2 border-transparent m-0 transition-all duration-700"
+      :class="firstLoadHasHappened ? ['h-80', 'mx-8', '!border-black'] : []"
     />
     <div
-      class="results-pane"
-      :class="{ open: showResults }"
+      class="w-0 overflow-hidden transition-all duration-1000"
+      :class="{ 'w-80': showResults }"
     >
-      <div class="results-text">
+      <div class="w-80">
         <p>{{ isMonoSpace ? 'Yes, your font is monospace' : 'No, your font is not monospace' }}</p>
       </div>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 80vh;
-  width: 100%;
-  background-color: white;
-
-  .title {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-
-    h1 {
-      margin-top: 0;
-    }
-
-    p {
-      margin: 0;
-    }
-
-    #fileInput {
-      display: none;
-    }
-
-    form {
-      margin-top: 36px;
-    }
-
-    label {
-      background-color: white;
-      padding: 10px;
-      border: 2px solid black;
-      transition: 300ms all ease;
-
-      &:hover {
-        background-color: black;
-        color: white;
-        cursor: pointer;
-      }
-    }
-  }
-
-  .line {
-    height: 0;
-    border: none;
-    margin: 0;
-    transition: all 750ms ease;
-
-    &.open {
-      border: 1px solid black;
-      height: 300px;
-      margin: 0 30px;
-    }
-  }
-
-  .results-pane {
-    width: 0;
-    overflow: hidden;
-    transition: all 1s ease;
-
-    &.open {
-      width: 350px;
-    }
-
-    .results-text {
-      width: 350px;
-    }
-  }
-}
-</style>
