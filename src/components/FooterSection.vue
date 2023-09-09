@@ -1,6 +1,9 @@
 <template>
   <div class="footer">
-    <p>made possible by <a href="https://opentype.js.org/">opentype.js</a> | visit me on <a href="https://github.com/oscarchilds/is-it-monospace">github</a></p>
+    <p>
+      made possible by <a href="https://opentype.js.org/">opentype.js</a> | visit me on
+      <a href="https://github.com/oscarchilds/is-it-monospace">github</a>
+    </p>
   </div>
 </template>
 
@@ -12,7 +15,8 @@
   display: flex;
   justify-content: center;
 
-  a, p {
+  a,
+  p {
     color: white;
   }
 

@@ -8,15 +8,15 @@ const { firstLoadHasHappened, showResults, fileName, font, modes, modePercent } 
 </script>
 
 <template>
-  <div 
+  <div
     class="font-info"
-    :class="{ 'show': firstLoadHasHappened }"
+    :class="{ show: firstLoadHasHappened }"
   >
     <transition name="fade">
       <h1 v-if="showResults">font info</h1>
     </transition>
     <transition name="fade">
-      <div 
+      <div
         class="info-container"
         v-if="showResults"
       >
@@ -44,7 +44,8 @@ const { firstLoadHasHappened, showResults, fileName, font, modes, modePercent } 
     background-color: black;
   }
 
-  h1, p {
+  h1,
+  p {
     color: white;
   }
 }

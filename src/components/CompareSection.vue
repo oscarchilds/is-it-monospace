@@ -17,20 +17,20 @@ watch(customTestText, () => {
   drawComparison()
 })
 
-const drawComparison = function() {
+const drawComparison = function () {
   const fontSize = 100
-  const textArray = ['iiiiiiiiiiiiiii', 'aaaaaaaaaaaaaaa' ,'wwwwwwwwwwwwwww', customTestText.value]
+  const textArray = ['iiiiiiiiiiiiiii', 'aaaaaaaaaaaaaaa', 'wwwwwwwwwwwwwww', customTestText.value]
   var i = 0
-  var ctx = compareCanvas.value.getContext("2d")
+  var ctx = compareCanvas.value.getContext('2d')
 
-  const scale = 1 / font.value.unitsPerEm * fontSize;
+  const scale = (1 / font.value.unitsPerEm) * fontSize
 
-  const glyph = glyphArray.value.find(x => x.unicode == 119)
-  compareCanvas.value.width = ((glyph.advanceWidth * scale) * 15) + 20
+  const glyph = glyphArray.value.find((x) => x.unicode == 119)
+  compareCanvas.value.width = glyph.advanceWidth * scale * 15 + 20
 
   ctx.clearRect(0, 0, compareCanvas.value.width, compareCanvas.value.height)
 
-  textArray.forEach(text => {
+  textArray.forEach((text) => {
     var y = 110 * (i + 1)
 
     font.value.draw(ctx, text, 10, y, fontSize)
@@ -41,9 +41,9 @@ const drawComparison = function() {
 </script>
 
 <template>
-  <div 
+  <div
     class="compare-container"
-    :class="{ 'show': showResults }"
+    :class="{ show: showResults }"
   >
     <h1>compare</h1>
     <canvas
@@ -55,12 +55,12 @@ const drawComparison = function() {
       v-if="showResults"
       class="compare-controls"
     >
-      <input v-model="customTestText">
+      <input v-model="customTestText" />
     </div>
     <div class="compare-learn-container">
       <div class="learn-tile">
         <h2>monospace</h2>
-        <img src="@/assets/images/example-mono.png">
+        <img src="@/assets/images/example-mono.png" />
         <p>
           A monospace font is a font where the characters are the same width, regardless of which
           character is used. This is helpful when you want to guarantee the width taken up by a
@@ -70,7 +70,7 @@ const drawComparison = function() {
       </div>
       <div class="learn-tile">
         <h2>not monospace</h2>
-        <img src="@/assets/images/example-not-mono.png">
+        <img src="@/assets/images/example-not-mono.png" />
         <p>
           When a font is not monospace, characters can be any width. This has the advantage of
           looking more natural and easy to read, but means that you cannot predict the width of a

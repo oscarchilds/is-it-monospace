@@ -45,25 +45,25 @@ function animateResults() {
       <h1>is it monospace?</h1>
       <p>Find out if your font is monospace here</p>
       <form>
-        <input 
-          type="file" 
+        <input
+          type="file"
           id="fileInput"
           accept=".ttf,.otf,.woff"
           @change="onFileChange"
-        >
+        />
         <label for="fileInput">Choose a font <font-awesome-icon icon="upload" /></label>
       </form>
     </div>
-    <div 
+    <div
       class="line"
-      :class="{ 'open': firstLoadHasHappened}"
+      :class="{ open: firstLoadHasHappened }"
     />
-    <div 
+    <div
       class="results-pane"
-      :class="{ 'open': showResults}"
+      :class="{ open: showResults }"
     >
       <div class="results-text">
-        <p>{{ isMonoSpace ? "Yes, your font is monospace" : "No, your font is not monospace" }}</p>
+        <p>{{ isMonoSpace ? 'Yes, your font is monospace' : 'No, your font is not monospace' }}</p>
       </div>
     </div>
   </div>
