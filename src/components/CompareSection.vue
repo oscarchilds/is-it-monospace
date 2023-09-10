@@ -3,6 +3,10 @@ import { ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useFontStore } from '@/stores/font'
 
+import CompareExample from './ui/CompareExample.vue'
+import exampleMonoUrl from '@/assets/images/example-mono.png'
+import exampleNotMonoUrl from '@/assets/images/example-not-mono.png'
+
 const store = useFontStore()
 
 const { showResults, font, glyphArray } = storeToRefs(store)
@@ -42,95 +46,43 @@ const drawComparison = function () {
 
 <template>
   <div
-    class="compare-container"
-    :class="{ show: showResults }"
+    class="py-32 flex-col items-center hidden"
+    :class="{ '!flex': showResults }"
   >
-    <h1>compare</h1>
+    <h1 class="text-2xl my-4">compare</h1>
     <canvas
       ref="compareCanvas"
       width="1200"
       height="480"
+      class="border-2 border-black"
     />
     <div
       v-if="showResults"
-      class="compare-controls"
+      class="flex flex-col justify-center"
     >
-      <input v-model="customTestText" />
+      <input
+        class="border-2 border-black appearance-none h-6 my-4"
+        v-model="customTestText"
+      />
     </div>
-    <div class="compare-learn-container">
-      <div class="learn-tile">
-        <h2>monospace</h2>
-        <img src="@/assets/images/example-mono.png" />
-        <p>
+    <div class="flex flex-wrap justify-center mt-12">
+      <CompareExample :img-url="exampleMonoUrl">
+        <template v-slot:title>monospace</template>
+        <template v-slot:content>
           A monospace font is a font where the characters are the same width, regardless of which
           character is used. This is helpful when you want to guarantee the width taken up by a
           certain number of characters, or when you would like the characters on multiple rows of
           text to line up.
-        </p>
-      </div>
-      <div class="learn-tile">
-        <h2>not monospace</h2>
-        <img src="@/assets/images/example-not-mono.png" />
-        <p>
+        </template>
+      </CompareExample>
+      <CompareExample :img-url="exampleNotMonoUrl">
+        <template v-slot:title>not monospace</template>
+        <template v-slot:content>
           When a font is not monospace, characters can be any width. This has the advantage of
           looking more natural and easy to read, but means that you cannot predict the width of a
           set number of characters like you could with a monospace font.
-        </p>
-      </div>
+        </template>
+      </CompareExample>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.compare-container {
-  padding: 125px 0;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-
-  &.show {
-    display: flex;
-  }
-
-  canvas {
-    border: 2px solid black;
-  }
-
-  .compare-controls {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    input {
-      appearance: none;
-      height: 25px;
-      border: 2px solid black;
-      margin: 13px 0 0;
-      font-family: 'Roboto Mono', monospace;
-    }
-  }
-
-  .compare-learn-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 50px;
-
-    .learn-tile {
-      width: 500px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      img {
-        width: 75%;
-        border: 2px solid black;
-      }
-
-      p {
-        width: 75%;
-      }
-    }
-  }
-}
-</style>

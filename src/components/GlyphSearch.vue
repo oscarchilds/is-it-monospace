@@ -57,117 +57,37 @@ const drawGlyphs = function () {
 
 <template>
   <div
-    class="glyph-container"
+    class="flex items-center flex-col mb-36"
     v-show="showResults"
   >
-    <div class="glyph-nav">
-      <p>search</p>
-      <input v-model="glyphSearch" />
+    <div class="bg-black sticky top-0 w-full flex items-center pl-20">
+      <p class="text-white mr-5 my-3">search</p>
+      <input
+        class="appearance-none h-6 border-2 border-white text-white bg-black"
+        v-model="glyphSearch"
+      />
     </div>
-    <div class="tile-container">
+    <div class="flex flex-wrap justify-center min-h-[384px]">
       <div
         v-for="(glyph, key) in searchedGlyphArray"
         :key="key"
-        class="tile"
-        :class="{ show: key < tileCount }"
+        class="h-72 w-48 border-2 border-black m-10 flex flex-col items-center justify-center rounded"
       >
         <canvas
           :id="key + '-canvas'"
           width="200"
           height="200"
         />
-        <h3>{{ glyph.name }}</h3>
-        <p>advanceWidth: {{ glyph.advanceWidth }}</p>
+        <h3 class="text-lg my-1">{{ glyph.name }}</h3>
+        <p class="text-base">advanceWidth: {{ glyph.advanceWidth }}</p>
       </div>
     </div>
     <div
-      class="load-tiles"
+      class="bg-white p-4 border-2 border-black transition w-fit rounded cursor-pointer hover:bg-black hover:text-white"
       @click="tileCount += 20"
       v-if="showResults"
     >
-      Load more glyphs
+      Show more glyphs
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.glyph-container {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin-bottom: 150px;
-
-  .glyph-nav {
-    background-color: black;
-    position: sticky;
-    top: 0px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-
-    :first-child {
-      margin-left: 91px;
-    }
-
-    :last-child {
-      margin-right: 91px;
-    }
-
-    p {
-      color: white;
-      margin-right: 20px;
-    }
-
-    input {
-      -webkit-appearance: none;
-      height: 25px;
-      border: 2px solid white;
-      color: white;
-      background-color: black;
-      margin: 0 10px;
-      font-family: 'Roboto Mono', monospace;
-    }
-  }
-
-  .tile-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    min-height: 384px;
-
-    .tile {
-      height: 300px;
-      width: 200px;
-      border: 2px solid black;
-      margin: 40px;
-      opacity: 0;
-      transition: 300ms all ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      &.show {
-        opacity: 1;
-      }
-
-      h3 {
-        margin: 0;
-      }
-    }
-  }
-
-  .load-tiles {
-    background-color: white;
-    padding: 10px;
-    border: 2px solid black;
-    transition: 300ms all ease;
-    width: 154px;
-
-    &:hover {
-      background-color: black;
-      color: white;
-      cursor: pointer;
-    }
-  }
-}
-</style>
