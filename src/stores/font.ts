@@ -4,20 +4,27 @@ import { defineStore } from 'pinia'
 export const useFontStore = defineStore('font', () => {
   const firstLoadHasHappened = ref(false)
   const showResults = ref(false)
-  const fileName = ref(null)
-  const font = ref(null)
+  const fileName = ref<string | undefined>()
+  const font = ref<opentype.Font | undefined>()
 
   const glyphArray = computed(() => {
-    if (!font.value) return null
+    if (!font.value) return undefined
 
-    var glyphsAsObject = font.value.glyphs.glyphs
-    return Object.keys(glyphsAsObject).map((key) => glyphsAsObject[key])
+    const result: opentype.Glyph[] = []
+
+    for (let i = 0; i < font.value.glyphs.length; i++) {
+      const glyph = font.value.glyphs.get(i)
+      result.push(glyph)
+    }
+
+    return result
   })
 
   const modes = computed(() => {
+    // TODO look at removing all of this
     if (!glyphArray.value) return []
 
-    var result = [],
+    let result = [],
       count = [],
       i,
       number,
@@ -37,10 +44,7 @@ export const useFontStore = defineStore('font', () => {
     for (i in count) {
       if (count.hasOwnProperty(i)) {
         if (count[i] === maxIndex) {
-          result.push({
-            number: Number(i),
-            count: count[i],
-          })
+          result.push({ number: Number(i), count: count[i] })
         }
       }
     }
@@ -51,27 +55,27 @@ export const useFontStore = defineStore('font', () => {
   const modePercent = computed(() => {
     if (!modes.value[0]) return null
 
-    var modesCount = modes.value[0].count
+    const modesCount = modes.value[0].count
     return ((modesCount / glyphArray.value.length) * 100).toFixed(3)
   })
 
-  const isMonoSpace = computed(() => {
+  const isMonospace = computed(() => {
     return modePercent.value > 90
   })
 
-  const setShowResults = function (value) {
+  const setShowResults = function (value: boolean) {
     showResults.value = value
   }
 
-  const setFirstLoadHasHappened = function (value) {
+  const setFirstLoadHasHappened = function (value: boolean) {
     firstLoadHasHappened.value = value
   }
 
-  const setFont = function (value) {
+  const setFont = function (value: opentype.Font) {
     font.value = value
   }
 
-  const setFileName = function (value) {
+  const setFileName = function (value: string) {
     fileName.value = value
   }
 
@@ -80,7 +84,7 @@ export const useFontStore = defineStore('font', () => {
     showResults,
     fileName,
     font,
-    isMonoSpace,
+    isMonospace,
     modePercent,
     modes,
     glyphArray,
