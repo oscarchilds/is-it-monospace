@@ -5,7 +5,7 @@ import { useFontStore } from '@/stores/font'
 
 const store = useFontStore()
 
-const { firstLoadHasHappened, showResults, isMonoSpace } = storeToRefs(store)
+const { firstLoadHasHappened, showResults, isMonospace } = storeToRefs(store)
 const { setShowResults, setFirstLoadHasHappened, setFont, setFileName } = store
 
 function onFileChange(e) {
@@ -21,7 +21,8 @@ function onFileChange(e) {
     const reader = new FileReader()
 
     reader.onload = function () {
-      setFont(opentype.parse(reader.result))
+      const font = opentype.parse(reader.result)
+      setFont(font)
 
       animateResults()
     }
@@ -52,7 +53,7 @@ function animateResults() {
     <div class="line" :class="{ open: firstLoadHasHappened }" />
     <div class="results-pane" :class="{ open: showResults }">
       <div class="results-text">
-        <p>{{ isMonoSpace ? 'Yes, your font is monospace' : 'No, your font is not monospace' }}</p>
+        <p>{{ isMonospace ? 'Yes, your font is monospace' : 'No, your font is not monospace' }}</p>
       </div>
     </div>
   </div>
