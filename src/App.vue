@@ -7,10 +7,7 @@ import FooterSection from './components/FooterSection.vue'
 </script>
 
 <template>
-  <div
-    id="app"
-    class="container"
-  >
+  <div id="app" class="container">
     <HeroSection />
     <FontInfo />
     <CompareSection />

@@ -20,8 +20,8 @@ watch(customTestText, () => {
 const drawComparison = function () {
   const fontSize = 100
   const textArray = ['iiiiiiiiiiiiiii', 'aaaaaaaaaaaaaaa', 'wwwwwwwwwwwwwww', customTestText.value]
-  var i = 0
-  var ctx = compareCanvas.value.getContext('2d')
+  let i = 0
+  const ctx = compareCanvas.value.getContext('2d')
 
   const scale = (1 / font.value.unitsPerEm) * fontSize
 
@@ -31,7 +31,7 @@ const drawComparison = function () {
   ctx.clearRect(0, 0, compareCanvas.value.width, compareCanvas.value.height)
 
   textArray.forEach((text) => {
-    var y = 110 * (i + 1)
+    const y = 110 * (i + 1)
 
     font.value.draw(ctx, text, 10, y, fontSize)
 
@@ -41,20 +41,10 @@ const drawComparison = function () {
 </script>
 
 <template>
-  <div
-    class="compare-container"
-    :class="{ show: showResults }"
-  >
+  <div class="compare-container" :class="{ show: showResults }">
     <h1>compare</h1>
-    <canvas
-      ref="compareCanvas"
-      width="1200"
-      height="480"
-    />
-    <div
-      v-if="showResults"
-      class="compare-controls"
-    >
+    <canvas ref="compareCanvas" width="1200" height="480" />
+    <div v-if="showResults" class="compare-controls">
       <input v-model="customTestText" />
     </div>
     <div class="compare-learn-container">

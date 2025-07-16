@@ -10,15 +10,15 @@ const { setShowResults, setFirstLoadHasHappened, setFont, setFileName } = store
 
 function onFileChange(e) {
   setShowResults(false)
-  var timeout = firstLoadHasHappened.value ? 1000 : 0
+  const timeout = firstLoadHasHappened.value ? 1000 : 0
 
   setTimeout(() => {
     setFileName(e.target.value.split('\\').pop())
 
-    var fileList = e.target.files || e.dataTransfer.files
-    var file = fileList[0]
+    const fileList = e.target.files || e.dataTransfer.files
+    const file = fileList[0]
 
-    var reader = new FileReader()
+    const reader = new FileReader()
 
     reader.onload = function () {
       setFont(opentype.parse(reader.result))
@@ -45,23 +45,12 @@ function animateResults() {
       <h1>is it monospace?</h1>
       <p>Find out if your font is monospace here</p>
       <form>
-        <input
-          type="file"
-          id="fileInput"
-          accept=".ttf,.otf,.woff"
-          @change="onFileChange"
-        />
+        <input type="file" id="fileInput" accept=".ttf,.otf,.woff" @change="onFileChange" />
         <label for="fileInput">Choose a font <font-awesome-icon icon="upload" /></label>
       </form>
     </div>
-    <div
-      class="line"
-      :class="{ open: firstLoadHasHappened }"
-    />
-    <div
-      class="results-pane"
-      :class="{ open: showResults }"
-    >
+    <div class="line" :class="{ open: firstLoadHasHappened }" />
+    <div class="results-pane" :class="{ open: showResults }">
       <div class="results-text">
         <p>{{ isMonoSpace ? 'Yes, your font is monospace' : 'No, your font is not monospace' }}</p>
       </div>

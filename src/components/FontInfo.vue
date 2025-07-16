@@ -8,18 +8,12 @@ const { firstLoadHasHappened, showResults, fileName, font, modes, modePercent } 
 </script>
 
 <template>
-  <div
-    class="font-info"
-    :class="{ show: firstLoadHasHappened }"
-  >
+  <div class="font-info" :class="{ show: firstLoadHasHappened }">
     <transition name="fade">
       <h1 v-if="showResults">font info</h1>
     </transition>
     <transition name="fade">
-      <div
-        class="info-container"
-        v-if="showResults"
-      >
+      <div class="info-container" v-if="showResults">
         <p>file name: {{ fileName }}</p>
         <p>font name: {{ font.names.fullName.en }}</p>
         <p>format: {{ font.outlinesFormat }}</p>

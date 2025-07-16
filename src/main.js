@@ -4,7 +4,7 @@ import './assets/styles/main.scss'
 import { createApp } from 'vue'
 import App from './App.vue'
 
-var app = createApp(App)
+const app = createApp(App)
 
 // Pinia
 import { createPinia } from 'pinia'

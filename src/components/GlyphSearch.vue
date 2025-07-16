@@ -12,7 +12,7 @@ const tileCount = ref(20)
 const searchedGlyphArray = computed(() => {
   if (!glyphArray.value) return null
 
-  var result = glyphArray.value.slice(0, tileCount.value)
+  const result = glyphArray.value.slice(0, tileCount.value)
 
   if (glyphSearch.value) {
     return result.filter((glyph) => glyph.name.includes(glyphSearch.value))
@@ -34,18 +34,18 @@ watch(glyphSearch, () => {
 })
 
 const drawGlyphs = function () {
-  var scale = (1 / font.value.unitsPerEm) * 100
+  const scale = (1 / font.value.unitsPerEm) * 100
 
-  var maxLength = Math.min(tileCount.value, searchedGlyphArray.value.length)
+  const maxLength = Math.min(tileCount.value, searchedGlyphArray.value.length)
 
   for (let index = 0; index < maxLength; index++) {
-    var canvas = document.getElementById(index + '-canvas')
-    var ctx = canvas.getContext('2d')
+    const canvas = document.getElementById(index + '-canvas')
+    const ctx = canvas.getContext('2d')
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    var glyph = searchedGlyphArray.value[index]
-    var char = String.fromCharCode(glyph.unicode)
+    const glyph = searchedGlyphArray.value[index]
+    const char = String.fromCharCode(glyph.unicode)
 
     canvas.width = glyph.advanceWidth * scale + 40
 
@@ -56,10 +56,7 @@ const drawGlyphs = function () {
 </script>
 
 <template>
-  <div
-    class="glyph-container"
-    v-show="showResults"
-  >
+  <div class="glyph-container" v-show="showResults">
     <div class="glyph-nav">
       <p>search</p>
       <input v-model="glyphSearch" />
@@ -71,22 +68,12 @@ const drawGlyphs = function () {
         class="tile"
         :class="{ show: key < tileCount }"
       >
-        <canvas
-          :id="key + '-canvas'"
-          width="200"
-          height="200"
-        />
+        <canvas :id="key + '-canvas'" width="200" height="200" />
         <h3>{{ glyph.name }}</h3>
         <p>advanceWidth: {{ glyph.advanceWidth }}</p>
       </div>
     </div>
-    <div
-      class="load-tiles"
-      @click="tileCount += 20"
-      v-if="showResults"
-    >
-      Load more glyphs
-    </div>
+    <div class="load-tiles" @click="tileCount += 20" v-if="showResults">Load more glyphs</div>
   </div>
 </template>
 

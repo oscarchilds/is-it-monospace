@@ -39,7 +39,7 @@ export const useFontStore = defineStore('font', () => {
         if (count[i] === maxIndex) {
           result.push({
             number: Number(i),
-            count: count[i]
+            count: count[i],
           })
         }
       }
@@ -87,6 +87,6 @@ export const useFontStore = defineStore('font', () => {
     setShowResults,
     setFirstLoadHasHappened,
     setFont,
-    setFileName
+    setFileName,
   }
 })
