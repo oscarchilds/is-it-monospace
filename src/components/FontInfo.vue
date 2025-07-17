@@ -4,7 +4,7 @@ import { useFontStore } from '@/stores/font'
 
 const store = useFontStore()
 
-const { firstLoadHasHappened, showResults, fileName, font, modes, modePercent } = storeToRefs(store)
+const { firstLoadHasHappened, showResults, fileName, font } = storeToRefs(store)
 </script>
 
 <template>
@@ -18,8 +18,6 @@ const { firstLoadHasHappened, showResults, fileName, font, modes, modePercent } 
         <p>font name: {{ font.names.fullName.en }}</p>
         <p>format: {{ font.outlinesFormat }}</p>
         <p>number of glyphs: {{ font.numGlyphs }}</p>
-        <p>mode average advanceWidth: {{ modes[0].number }}</p>
-        <p>mode percentage: {{ modePercent }}%</p>
       </div>
     </transition>
   </div>
