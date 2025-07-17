@@ -20,47 +20,21 @@ export const useFontStore = defineStore('font', () => {
     return result
   })
 
-  const modes = computed(() => {
-    // TODO look at removing all of this
-    if (!glyphArray.value) return []
-
-    let result = [],
-      count = [],
-      i,
-      number,
-      maxIndex = 0
-
-    const widths = glyphArray.value.map((x) => x.advanceWidth)
-
-    for (i = 0; i < widths.length; i += 1) {
-      number = widths[i]
-      count[number] = (count[number] || 0) + 1
-
-      if (count[number] > maxIndex) {
-        maxIndex = count[number]
-      }
-    }
-
-    for (i in count) {
-      if (count.hasOwnProperty(i)) {
-        if (count[i] === maxIndex) {
-          result.push({ number: Number(i), count: count[i] })
-        }
-      }
-    }
-
-    return result
-  })
-
-  const modePercent = computed(() => {
-    if (!modes.value[0]) return null
-
-    const modesCount = modes.value[0].count
-    return ((modesCount / glyphArray.value.length) * 100).toFixed(3)
-  })
-
   const isMonospace = computed(() => {
-    return modePercent.value > 90
+    if (!glyphArray.value) return false
+
+    const count = new Map<number, number>()
+    let maxCount = 0
+
+    for (const glyph of glyphArray.value) {
+      if (glyph.advanceWidth === undefined) continue
+
+      const currentCount = (count.get(glyph.advanceWidth) || 0) + 1
+      count.set(glyph.advanceWidth, currentCount)
+      maxCount = Math.max(maxCount, currentCount)
+    }
+
+    return (maxCount / glyphArray.value.length) * 100 > 90
   })
 
   const setShowResults = function (value: boolean) {
@@ -85,8 +59,6 @@ export const useFontStore = defineStore('font', () => {
     fileName,
     font,
     isMonospace,
-    modePercent,
-    modes,
     glyphArray,
     setShowResults,
     setFirstLoadHasHappened,
