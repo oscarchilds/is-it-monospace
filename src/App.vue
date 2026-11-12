@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import HeroSection from './components/HeroSection.vue'
 import FontInfo from './components/FontInfo.vue'
 import CompareSection from './components/CompareSection.vue'

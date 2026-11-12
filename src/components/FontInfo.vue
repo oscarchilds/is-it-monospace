@@ -1,9 +1,8 @@
-<script setup>
-import { storeToRefs } from 'pinia'
+<script setup lang="ts">
 import { useFontStore } from '@/stores/font'
+import { storeToRefs } from 'pinia';
 
 const store = useFontStore()
-
 const { firstLoadHasHappened, showResults, fileName, font } = storeToRefs(store)
 </script>
 
@@ -13,7 +12,7 @@ const { firstLoadHasHappened, showResults, fileName, font } = storeToRefs(store)
       <h1 v-if="showResults">font info</h1>
     </transition>
     <transition name="fade">
-      <div class="info-container" v-if="showResults">
+      <div class="info-container" v-if="showResults && font">
         <p>file name: {{ fileName }}</p>
         <p>font name: {{ font.names.fullName.en }}</p>
         <p>format: {{ font.outlinesFormat }}</p>

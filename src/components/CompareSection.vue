@@ -1,13 +1,13 @@
-<script setup>
-import { ref, watch } from 'vue'
-import { storeToRefs } from 'pinia'
+<script setup lang="ts">
+import { ref, useTemplateRef, watch } from 'vue'
 import { useFontStore } from '@/stores/font'
+import { storeToRefs } from 'pinia'
 
 const store = useFontStore()
 
 const { showResults, font, glyphArray } = storeToRefs(store)
 const customTestText = ref('compare')
-const compareCanvas = ref(null)
+const compareCanvas = useTemplateRef('compare-canvas')
 
 watch(showResults, () => {
   drawComparison()
@@ -18,23 +18,28 @@ watch(customTestText, () => {
 })
 
 const drawComparison = function () {
+  const currentFont = font.value
+
+  if (!compareCanvas.value || !currentFont || !glyphArray.value) return
+
   const fontSize = 100
   const textArray = ['iiiiiiiiiiiiiii', 'aaaaaaaaaaaaaaa', 'wwwwwwwwwwwwwww', customTestText.value]
   let i = 0
   const ctx = compareCanvas.value.getContext('2d')
+  if (!ctx) return
 
-  const scale = (1 / font.value.unitsPerEm) * fontSize
+  const scale = (1 / currentFont.unitsPerEm) * fontSize
 
   const glyph = glyphArray.value.find((x) => x.unicode == 119)
+  if (!glyph?.advanceWidth) return
+
   compareCanvas.value.width = glyph.advanceWidth * scale * 15 + 20
 
   ctx.clearRect(0, 0, compareCanvas.value.width, compareCanvas.value.height)
 
   textArray.forEach((text) => {
     const y = 110 * (i + 1)
-
-    font.value.draw(ctx, text, 10, y, fontSize)
-
+    currentFont.draw(ctx, text, 10, y, fontSize)
     i++
   })
 }
@@ -43,7 +48,7 @@ const drawComparison = function () {
 <template>
   <div class="compare-container" :class="{ show: showResults }">
     <h1>compare</h1>
-    <canvas ref="compareCanvas" width="1200" height="480" />
+    <canvas ref="compare-canvas" width="1200" height="480" />
     <div v-if="showResults" class="compare-controls">
       <input v-model="customTestText" />
     </div>

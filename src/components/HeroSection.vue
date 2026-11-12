@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import opentype from 'opentype.js'
 import { useFontStore } from '@/stores/font'
@@ -8,19 +8,24 @@ const store = useFontStore()
 const { firstLoadHasHappened, showResults, isMonospace } = storeToRefs(store)
 const { setShowResults, setFirstLoadHasHappened, setFont, setFileName } = store
 
-function onFileChange(e) {
+function onFileChange(e: Event) {
   setShowResults(false)
+  const input = e.currentTarget
+  if (!(input instanceof HTMLInputElement)) return
+
+  const file = input.files?.[0]
+  if (!file) return
+
   const timeout = firstLoadHasHappened.value ? 1000 : 0
 
   setTimeout(() => {
-    setFileName(e.target.value.split('\\').pop())
-
-    const fileList = e.target.files || e.dataTransfer.files
-    const file = fileList[0]
+    setFileName(file.name)
 
     const reader = new FileReader()
 
     reader.onload = function () {
+      if (!(reader.result instanceof ArrayBuffer)) return
+
       const font = opentype.parse(reader.result)
       setFont(font)
 

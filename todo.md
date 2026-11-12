@@ -1,0 +1,2 @@
+- Refactor font store, specifically font possibly being undefined, causing us to check it everywhere
+- Move pinia fontStore to new object-based convention

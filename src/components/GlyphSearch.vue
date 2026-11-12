@@ -1,13 +1,14 @@
-<script setup>
+<script setup lang='ts'>
 import { storeToRefs } from 'pinia'
 import { useFontStore } from '@/stores/font'
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
 
 const store = useFontStore()
 
 const { showResults, glyphArray, font } = storeToRefs(store)
 const glyphSearch = ref('')
 const tileCount = ref(20)
+const glyphs = useTemplateRef<HTMLCanvasElement[]>('glyphs')
 
 const searchedGlyphArray = computed(() => {
   if (!glyphArray.value) return null
@@ -15,7 +16,7 @@ const searchedGlyphArray = computed(() => {
   const result = glyphArray.value.slice(0, tileCount.value)
 
   if (glyphSearch.value) {
-    return result.filter((glyph) => glyph.name.includes(glyphSearch.value))
+    return result.filter((glyph) => glyph.name?.includes(glyphSearch.value))
   }
 
   return result
@@ -34,24 +35,28 @@ watch(glyphSearch, () => {
 })
 
 const drawGlyphs = function () {
-  const scale = (1 / font.value.unitsPerEm) * 100
+  const currentFont = font.value
+  if (!currentFont) return
 
-  const maxLength = Math.min(tileCount.value, searchedGlyphArray.value.length)
+  const scale = (1 / currentFont.unitsPerEm) * 100
 
-  for (let index = 0; index < maxLength; index++) {
-    const canvas = document.getElementById(index + '-canvas')
+  glyphs.value?.forEach((canvas, index) => {
     const ctx = canvas.getContext('2d')
+
+    if (!ctx) return
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    const glyph = searchedGlyphArray.value[index]
-    const char = String.fromCharCode(glyph.unicode)
+    const glyph = searchedGlyphArray.value?.[index]
 
+    if (!glyph?.unicode || !glyph?.advanceWidth) return
+
+    const char = String.fromCharCode(glyph.unicode)
     canvas.width = glyph.advanceWidth * scale + 40
 
-    font.value.draw(ctx, char, 20, 150, 100)
-    font.value.drawMetrics(ctx, char, 20, 150, 100)
-  }
+    currentFont.draw(ctx, char, 20, 150, 100)
+    currentFont.drawMetrics(ctx, char, 20, 150, 100)
+  })
 }
 </script>
 
@@ -68,7 +73,7 @@ const drawGlyphs = function () {
         class="tile"
         :class="{ show: key < tileCount }"
       >
-        <canvas :id="key + '-canvas'" width="200" height="200" />
+        <canvas ref="glyphs" width="200" height="200" />
         <h3>{{ glyph.name }}</h3>
         <p>advanceWidth: {{ glyph.advanceWidth }}</p>
       </div>
