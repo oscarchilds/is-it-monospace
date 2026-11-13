@@ -1,4 +1,4 @@
-<script setup lang='ts'>
+<script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useFontStore } from '@/stores/font'
 import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'

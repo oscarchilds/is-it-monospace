@@ -1,2 +1,4 @@
 - Refactor font store, specifically font possibly being undefined, causing us to check it everywhere
 - Move pinia fontStore to new object-based convention
+- Update opentype to 2.0.0 and check for regressions
+- Review our FontAwesome implementation

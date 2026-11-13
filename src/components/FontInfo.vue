@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFontStore } from '@/stores/font'
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'
 
 const store = useFontStore()
 const { firstLoadHasHappened, showResults, fileName, font } = storeToRefs(store)
